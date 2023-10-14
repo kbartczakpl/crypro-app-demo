@@ -6,4 +6,9 @@ export interface Crypto {
     large?: string;
     market_cap_rank?: number;
     thumb?: string;
+    price?: CryptoPrice;
+}
+export interface CryptoPrice {
+    usd: number;
+    usd_24h_change: number;
 }
