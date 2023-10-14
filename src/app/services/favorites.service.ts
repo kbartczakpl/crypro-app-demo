@@ -1,8 +1,9 @@
 import { Injectable } from "@angular/core";
-import { BehaviorSubject, Observable, of } from "rxjs";
+import { BehaviorSubject, Observable, of, timer } from "rxjs";
 import { Crypto, CryptoPrice } from "../models/crypto.model";
 import { CryptoService } from "./crypto.service";
-import { catchError } from "rxjs/operators";
+import { catchError, switchMap } from "rxjs/operators";
+import { MatSnackBar } from "@angular/material/snack-bar";
 
 @Injectable({
     providedIn: "root"
@@ -12,8 +13,15 @@ export class FavoritesService {
     private favoritesSubject = new BehaviorSubject<Crypto[]>(this.favoritesList);
     favorites$: Observable<Crypto[]> = this.favoritesSubject.asObservable();
 
-    constructor(private cryptoService: CryptoService) {
+    private isAutoRefreshSubject = new BehaviorSubject<boolean>(false);
+    isAutoRefresh$: Observable<boolean> = this.isAutoRefreshSubject.asObservable();
+
+    constructor(
+        private cryptoService: CryptoService,
+        private snackBar: MatSnackBar
+    ) {
         this.loadFavoritesFromStorage();
+        this.setupAutoRefresh();
     }
 
     private loadFavoritesFromStorage(): void {
@@ -28,17 +36,39 @@ export class FavoritesService {
         localStorage.setItem("favorites", JSON.stringify(this.favoritesList));
     }
 
-    updatePrices(): void {
+    private setupAutoRefresh(): void {
+        timer(0, 10000)
+            .pipe(
+                switchMap(() => {
+                    if (this.favoritesList.length > 0) {
+                        this.isAutoRefreshSubject.next(true);
+                        this.snackBar.open("Price lists auto-refreshed", "Done", {
+                            duration: 2000
+                        });
+                        return this.updatePrices().pipe(
+                            catchError((err) => {
+                                console.error(err);
+                                return of();
+                            })
+                        );
+                    } else {
+                        return of();
+                    }
+                })
+            )
+            .subscribe(() => {
+                this.isAutoRefreshSubject.next(false);
+            });
+    }
+
+    updatePrices(): Observable<void> {
         if (this.favoritesList.length > 0) {
-            this.cryptoService
-                .getCryptoPrices(this.favoritesList)
-                .pipe(
-                    catchError((err) => {
-                        console.error(err);
-                        return of({});
-                    })
-                )
-                .subscribe((prices: Record<string, CryptoPrice> | {}) => {
+            return this.cryptoService.getCryptoPrices(this.favoritesList).pipe(
+                catchError((err) => {
+                    console.error(err);
+                    return of({});
+                }),
+                switchMap((prices: Record<string, CryptoPrice> | {}) => {
                     this.favoritesList.forEach((crypto) => {
                         if (typeof prices === "object" && prices.hasOwnProperty(crypto.id)) {
                             crypto.price = (prices as Record<string, CryptoPrice>)[crypto.id];
@@ -47,15 +77,18 @@ export class FavoritesService {
 
                     this.favoritesSubject.next([...this.favoritesList]);
                     this.saveFavoritesToStorage();
-                });
+                    return of();
+                })
+            );
         }
+        return of();
     }
 
     addToFavorites(crypto: Crypto): void {
         this.favoritesList.push(crypto);
         this.favoritesSubject.next(this.favoritesList);
         this.saveFavoritesToStorage();
-        this.updatePrices();
+        this.updatePrices().subscribe();
     }
 
     removeFromFavorites(cryptoId: string): void {
