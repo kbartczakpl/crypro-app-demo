@@ -3,6 +3,7 @@ import { FormControl } from "@angular/forms";
 import { Observable, of, catchError } from "rxjs";
 import { map, startWith, debounceTime, switchMap } from "rxjs/operators";
 import { CryptoService } from "../../services/crypto.service";
+import { FavoritesService } from "../../services/favorites.service";
 import { Crypto } from "../../models/crypto.model";
 
 @Component({
@@ -16,7 +17,10 @@ export class CryptoSearchComponent implements OnInit {
     filteredOptions: Observable<Crypto[]> = of([]);
     selectedCrypto?: Crypto;
 
-    constructor(private cryptoService: CryptoService) {}
+    constructor(
+        private cryptoService: CryptoService,
+        private favoritesService: FavoritesService
+    ) {}
 
     ngOnInit(): void {
         this.filteredOptions = this.cryptoSearch.valueChanges.pipe(
@@ -39,7 +43,14 @@ export class CryptoSearchComponent implements OnInit {
 
     private _filter(value: string): Observable<Crypto[]> {
         return this.cryptoService.searchCryptos(value).pipe(
-            map((cryptos: any) => cryptos.slice(0, 25)) // Limit to 25 results
+            switchMap((cryptos: Crypto[]) => {
+                return this.favoritesService.getFavorites().pipe(
+                    map((favorites: Crypto[]) => {
+                        const favoriteIds = favorites.map((f) => f.id);
+                        return cryptos.filter((crypto) => !favoriteIds.includes(crypto.id)).slice(0, 25);
+                    })
+                );
+            })
         );
     }
 
@@ -48,7 +59,7 @@ export class CryptoSearchComponent implements OnInit {
     }
 
     addToFavorites(crypto: Crypto): void {
-        // Logic to add the selected crypto to the favorite list
-        console.log("Adding to favorites:", crypto);
+        this.favoritesService.addToFavorites(crypto);
+        this.cryptoSearch.setValue("");
     }
 }
