@@ -4,7 +4,7 @@ import { environment } from "../../environments/environment";
 import { Observable, throwError } from "rxjs";
 import { catchError, map } from "rxjs/operators";
 
-import { Crypto } from "../models/crypto.model";
+import { Crypto, CryptoPrice } from "../models/crypto.model";
 
 @Injectable({
     providedIn: "root"
@@ -23,6 +23,20 @@ export class CryptoService {
                 map((response) => response.coins),
                 catchError(this.handleError)
             );
+    }
+
+    getCryptoPrices(cryptos: Crypto[]): Observable<Record<string, CryptoPrice>> {
+        const cryptoIds = cryptos.map((crypto) => crypto.id).join(",");
+        return this.http
+            .get<Record<string, CryptoPrice>>(`${this.apiUrl}/simple/price`, {
+                params: {
+                    ids: cryptoIds,
+                    vs_currencies: "usd",
+                    precision: "2",
+                    include_24hr_change: "true"
+                }
+            })
+            .pipe(catchError(this.handleError));
     }
 
     private handleError(error: HttpErrorResponse) {
