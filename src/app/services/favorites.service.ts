@@ -64,6 +64,11 @@ export class FavoritesService {
         this.saveFavoritesToStorage();
     }
 
+    getSingleFavorite(cryptoId: string): Observable<Crypto | null> {
+        const foundCrypto = this.favoritesList.find((crypto) => crypto.id === cryptoId);
+        return of(foundCrypto ?? null);
+    }
+
     getFavorites(): Observable<Crypto[]> {
         return this.favorites$;
     }
