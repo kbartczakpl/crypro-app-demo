@@ -15,6 +15,7 @@ import { MatOptionModule } from "@angular/material/core";
 import { MatButtonModule } from "@angular/material/button";
 import { MatTableModule } from "@angular/material/table";
 import { MatIconModule } from "@angular/material/icon";
+import { MatSortModule } from "@angular/material/sort";
 
 import { HomeComponent } from "./pages/home/home.component";
 
@@ -39,6 +40,7 @@ import { CryptoSearchComponent } from "./components/crypto-search/crypto-search.
         MatOptionModule,
         MatButtonModule,
         MatTableModule,
+        MatSortModule,
         MatIconModule
     ],
     providers: [],

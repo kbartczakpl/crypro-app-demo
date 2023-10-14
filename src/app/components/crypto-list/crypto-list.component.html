@@ -10,25 +10,25 @@
 
   <!-- Name Column -->
   <ng-container matColumnDef="name">
-    <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
+    <mat-header-cell *matHeaderCellDef mat-sort-header> Name </mat-header-cell>
     <mat-cell *matCellDef="let crypto"> {{ crypto.name }} </mat-cell>
   </ng-container>
 
   <!-- Symbol Column -->
   <ng-container matColumnDef="symbol">
-    <mat-header-cell *matHeaderCellDef> Symbol </mat-header-cell>
+    <mat-header-cell *matHeaderCellDef mat-sort-header> Symbol </mat-header-cell>
     <mat-cell *matCellDef="let crypto"> {{ crypto.symbol }} </mat-cell>
   </ng-container>
 
   <!-- Price Column -->
   <ng-container matColumnDef="price_usd">
-    <mat-header-cell *matHeaderCellDef> Price </mat-header-cell>
+    <mat-header-cell *matHeaderCellDef mat-sort-header> Price </mat-header-cell>
     <mat-cell *matCellDef="let crypto"> {{ crypto.price?.usd | currency }} </mat-cell>
   </ng-container>
 
   <!-- 24h change Column -->
   <ng-container matColumnDef="price_usd_24h_change">
-    <mat-header-cell *matHeaderCellDef> 24h change </mat-header-cell>
+    <mat-header-cell *matHeaderCellDef mat-sort-header> 24h change </mat-header-cell>
     <mat-cell *matCellDef="let crypto"> {{ crypto.price?.usd_24h_change / 100 | percent:'1.1-2' }} </mat-cell>
   </ng-container>
 
