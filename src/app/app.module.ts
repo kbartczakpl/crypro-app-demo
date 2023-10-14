@@ -20,6 +20,7 @@ import { MatTooltipModule } from "@angular/material/tooltip";
 import { MatCardModule } from "@angular/material/card";
 import { MatSelectModule } from "@angular/material/select";
 import { MatDividerModule } from "@angular/material/divider";
+import { MatSnackBarModule } from "@angular/material/snack-bar";
 
 import { GoogleChartsModule } from "angular-google-charts";
 
@@ -61,7 +62,8 @@ import { CryptoDetailsComponent } from "./pages/crypto-details/crypto-details.co
         MatDividerModule,
         MatCardModule,
         MatSelectModule,
-        GoogleChartsModule
+        GoogleChartsModule,
+        MatSnackBarModule
     ],
     providers: [],
     bootstrap: [AppComponent]

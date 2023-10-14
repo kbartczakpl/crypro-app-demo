@@ -32,8 +32,8 @@ export class CryptoSearchComponent implements OnInit {
                 return of([]);
             })
         );
-        this.cryptoSearch.valueChanges.subscribe(value => {
-            if (typeof value === 'object' && value !== null) {
+        this.cryptoSearch.valueChanges.subscribe((value) => {
+            if (typeof value === "object" && value !== null) {
                 this.selectedCrypto = value;
             } else {
                 this.selectedCrypto = undefined;
