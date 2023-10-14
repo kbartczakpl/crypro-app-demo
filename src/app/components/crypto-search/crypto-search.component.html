@@ -1,0 +1,15 @@
+<div class="crypto-search-form">
+  <mat-form-field appearance="fill" class="crypto-search-form__field">
+    <mat-label>Select coin</mat-label>
+    <input type="text" matInput [formControl]="cryptoSearch" [matAutocomplete]="auto" />
+    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+      <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+        <div class="crypto-option">
+          <img [src]="option.thumb" [alt]="option.name" class="crypto-option__thumb" />
+          <span>{{ option.name }}</span>
+        </div>
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+  <button mat-raised-button color="primary" [disabled]="!selectedCrypto" (click)="addToFavorites(cryptoSearch.value)">add to Favorites</button>
+</div>

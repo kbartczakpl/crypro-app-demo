@@ -1,0 +1,22 @@
+.crypto-search-form {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  &__field {
+    flex-grow: 1;
+    margin-right: 10px;
+  }
+}
+
+.crypto-option {
+  display: flex;
+  align-items: center;
+
+  &__thumb {
+    width: 24px;
+    height: 24px;
+    margin-right: 8px;
+  }
+}
