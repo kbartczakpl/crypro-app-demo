@@ -1,0 +1,16 @@
+.clickable-row {
+  cursor: pointer;
+  transition: background 0.3s;
+
+  &:hover {
+     background: rgba(0, 0, 0, 0.05);
+  }
+  &__buttons{
+    > *{
+      margin: 0 5px;
+      &:hover {
+        background: rgba(0, 0, 0, 0.05);
+     }
+    }
+  }
+}

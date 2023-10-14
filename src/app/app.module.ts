@@ -16,6 +16,7 @@ import { MatButtonModule } from "@angular/material/button";
 import { MatTableModule } from "@angular/material/table";
 import { MatIconModule } from "@angular/material/icon";
 import { MatSortModule } from "@angular/material/sort";
+import { MatTooltipModule } from "@angular/material/tooltip";
 
 import { HomeComponent } from "./pages/home/home.component";
 
@@ -23,9 +24,18 @@ import { HeaderComponent } from "./components/header/header.component";
 import { FooterComponent } from "./components/footer/footer.component";
 import { CryptoListComponent } from "./components/crypto-list/crypto-list.component";
 import { CryptoSearchComponent } from "./components/crypto-search/crypto-search.component";
+import { CryptoDetailsComponent } from "./pages/crypto-details/crypto-details.component";
 
 @NgModule({
-    declarations: [AppComponent, HeaderComponent, FooterComponent, CryptoListComponent, HomeComponent, CryptoSearchComponent],
+    declarations: [
+        AppComponent,
+        HeaderComponent,
+        FooterComponent,
+        CryptoListComponent,
+        HomeComponent,
+        CryptoSearchComponent,
+        CryptoDetailsComponent
+    ],
     imports: [
         BrowserModule,
         AppRoutingModule,
@@ -41,7 +51,8 @@ import { CryptoSearchComponent } from "./components/crypto-search/crypto-search.
         MatButtonModule,
         MatTableModule,
         MatSortModule,
-        MatIconModule
+        MatIconModule,
+        MatTooltipModule
     ],
     providers: [],
     bootstrap: [AppComponent]
