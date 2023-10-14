@@ -1,8 +1,9 @@
 import { Component, OnInit, ViewChild, OnDestroy } from "@angular/core";
 import { FavoritesService } from "../../services/favorites.service";
 import { MatTableDataSource } from "@angular/material/table";
-import { MatSort } from '@angular/material/sort';
+import { MatSort } from "@angular/material/sort";
 import { Crypto } from "../../models/crypto.model";
+import { Router } from "@angular/router";
 import { Subscription } from "rxjs";
 
 @Component({
@@ -17,7 +18,10 @@ export class CryptoListComponent implements OnInit, OnDestroy {
 
     @ViewChild(MatSort, { static: true }) sort!: MatSort;
 
-    constructor(private favoritesService: FavoritesService) {}
+    constructor(
+        private favoritesService: FavoritesService,
+        private router: Router
+    ) {}
 
     ngOnInit(): void {
         this.favoritesSubscription = this.favoritesService.favorites$.subscribe((favorites) => {
@@ -45,5 +49,9 @@ export class CryptoListComponent implements OnInit, OnDestroy {
 
     removeFromFavorites(cryptoId: string): void {
         this.favoritesService.removeFromFavorites(cryptoId);
+    }
+
+    navigateToDetails(cryptoId: string): void {
+        this.router.navigate(["/crypto", cryptoId]);
     }
 }
