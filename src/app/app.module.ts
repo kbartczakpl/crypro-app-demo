@@ -13,6 +13,8 @@ import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatInputModule } from "@angular/material/input";
 import { MatOptionModule } from "@angular/material/core";
 import { MatButtonModule } from "@angular/material/button";
+import { MatTableModule } from '@angular/material/table';
+import { MatIconModule } from '@angular/material/icon';
 
 import { HomeComponent } from "./pages/home/home.component";
 
@@ -35,7 +37,9 @@ import { CryptoSearchComponent } from "./components/crypto-search/crypto-search.
         MatFormFieldModule,
         MatInputModule,
         MatOptionModule,
-        MatButtonModule
+        MatButtonModule,
+        MatTableModule,
+        MatIconModule
     ],
     providers: [],
     bootstrap: [AppComponent]
