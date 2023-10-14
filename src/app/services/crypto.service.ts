@@ -39,6 +39,21 @@ export class CryptoService {
             .pipe(catchError(this.handleError));
     }
 
+    getCryptoChart(id: string, timeframe: string): Observable<any> {
+        const to = Math.floor(Date.now() / 1000);
+        const from = to - parseFloat(timeframe) * 3600;
+
+        return this.http
+            .get<any>(`${this.apiUrl}/coins/${id}/market_chart/range`, {
+                params: {
+                    vs_currency: "usd",
+                    from: from.toString(),
+                    to: to.toString()
+                }
+            })
+            .pipe(catchError(this.handleError));
+    }
+
     private handleError(error: HttpErrorResponse) {
         let errorMessage = "Unknown error!";
 

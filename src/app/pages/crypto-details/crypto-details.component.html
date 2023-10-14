@@ -1,1 +1,47 @@
-<p>crypto-details works!</p>
+<div class="content">
+  <div class="header">
+    <button mat-icon-button [routerLink]="['/']">
+      <mat-icon>keyboard_backspace</mat-icon>
+    </button>
+    <h1>{{crypto!.name}}</h1>
+  </div>
+  <mat-card *ngIf="crypto">
+    <mat-card-header>
+      <mat-card-title style="margin-left:-16px;">Details:</mat-card-title>
+    </mat-card-header>
+    <mat-divider></mat-divider>
+    <mat-card-content>
+      <br>
+      <p>Symbol: <b>{{ crypto.symbol }}</b></p>
+      <p>Name: <b>{{ crypto.name }}</b></p>
+      <p>Price: <b>{{ crypto.price?.usd |currency }}</b></p>
+      <p>Companies ranking: <b>{{ crypto.market_cap_rank }}</b></p>
+    </mat-card-content>
+  </mat-card>
+  <br>
+  <mat-card *ngIf="chartData">
+    <mat-card-header>
+      <mat-card-title style="margin-left:-16px;">Price Chart: </mat-card-title>
+    </mat-card-header>
+    <mat-divider></mat-divider>
+    <mat-card-content>
+      <br>
+      <mat-form-field appearance="fill">
+        <mat-label>Select Timeframe</mat-label>
+        <mat-select [(value)]="selectedTimeframe" (selectionChange)="onTimeframeChange($event)">
+          <mat-option value="1">1h</mat-option>
+          <mat-option value="24">24h</mat-option>
+          <mat-option value="168">7d</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <google-chart style="width: 100%;"
+      [type]="chartProps.type"
+      [data]="chartData"
+      [columns]="chartProps.columnNames"
+      [options]="chartProps.options"
+      [dynamicResize]="chartProps.dynamicResize"
+      [height]="chartProps.height">
+    </google-chart>
+    </mat-card-content>
+  </mat-card>
+</div>

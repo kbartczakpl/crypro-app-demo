@@ -17,6 +17,11 @@ import { MatTableModule } from "@angular/material/table";
 import { MatIconModule } from "@angular/material/icon";
 import { MatSortModule } from "@angular/material/sort";
 import { MatTooltipModule } from "@angular/material/tooltip";
+import { MatCardModule } from "@angular/material/card";
+import { MatSelectModule } from "@angular/material/select";
+import { MatDividerModule } from "@angular/material/divider";
+
+import { GoogleChartsModule } from "angular-google-charts";
 
 import { HomeComponent } from "./pages/home/home.component";
 
@@ -52,7 +57,11 @@ import { CryptoDetailsComponent } from "./pages/crypto-details/crypto-details.co
         MatTableModule,
         MatSortModule,
         MatIconModule,
-        MatTooltipModule
+        MatTooltipModule,
+        MatDividerModule,
+        MatCardModule,
+        MatSelectModule,
+        GoogleChartsModule
     ],
     providers: [],
     bootstrap: [AppComponent]
