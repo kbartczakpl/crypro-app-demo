@@ -7,6 +7,7 @@ export interface Crypto {
     market_cap_rank?: number;
     thumb?: string;
     price?: CryptoPrice;
+    [key: string]: any;
 }
 export interface CryptoPrice {
     usd: number;

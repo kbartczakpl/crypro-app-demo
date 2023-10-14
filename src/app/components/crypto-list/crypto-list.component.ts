@@ -1,6 +1,7 @@
-import { Component, OnInit, OnDestroy } from "@angular/core";
+import { Component, OnInit, ViewChild, OnDestroy } from "@angular/core";
 import { FavoritesService } from "../../services/favorites.service";
 import { MatTableDataSource } from "@angular/material/table";
+import { MatSort } from '@angular/material/sort';
 import { Crypto } from "../../models/crypto.model";
 import { Subscription } from "rxjs";
 
@@ -14,11 +15,25 @@ export class CryptoListComponent implements OnInit, OnDestroy {
     dataSource = new MatTableDataSource<Crypto>([]);
     private favoritesSubscription?: Subscription;
 
+    @ViewChild(MatSort, { static: true }) sort!: MatSort;
+
     constructor(private favoritesService: FavoritesService) {}
 
     ngOnInit(): void {
         this.favoritesSubscription = this.favoritesService.favorites$.subscribe((favorites) => {
             this.dataSource.data = favorites;
+            this.dataSource.sort = this.sort;
+
+            this.dataSource.sortingDataAccessor = (crypto, header) => {
+                switch (header) {
+                    case "price_usd":
+                        return crypto.price?.usd;
+                    case "price_usd_24h_change":
+                        return crypto.price?.usd_24h_change;
+                    default:
+                        return crypto[header];
+                }
+            };
         });
     }
 
