@@ -1,5 +1,5 @@
 <h1>Favorite coins</h1>
-<mat-table [dataSource]="dataSource" matSort>
+<mat-table [dataSource]="dataSource" matSort *ngIf="hasData(); else noDataTemplate">
   <!-- Thumbnail Column -->
   <ng-container matColumnDef="thumb">
     <mat-header-cell *matHeaderCellDef> Thumbnail </mat-header-cell>
@@ -51,3 +51,8 @@
     class="clickable-row"
     (click)="navigateToDetails(row.id)"></mat-row>
 </mat-table>
+<ng-template #noDataTemplate>
+  <div class="empty-data">
+    <i>add first coin to <3</i>
+  </div>
+</ng-template>
