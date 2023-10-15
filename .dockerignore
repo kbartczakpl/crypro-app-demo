@@ -1,0 +1,8 @@
+.git
+.vscode
+.editorconfig
+/node_modules
+.gitignore
+*.md
+.prettierrc
+.prettierrcignore
