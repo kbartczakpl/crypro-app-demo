@@ -60,7 +60,7 @@ export class CryptoService {
         if (error.error instanceof ErrorEvent) {
             errorMessage = `Error: ${error.error.message}`;
         } else {
-            errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
+            errorMessage = `Error Code: ${error.status ?? "unknown"}\nMessage: ${error.message ?? "unknown"}`;
         }
         return throwError(errorMessage);
     }
