@@ -47,6 +47,10 @@ export class CryptoListComponent implements OnInit, OnDestroy {
         }
     }
 
+    hasData(): boolean {
+        return this.dataSource.data.length > 0;
+    }
+
     removeFromFavorites(cryptoId: string): void {
         this.favoritesService.removeFromFavorites(cryptoId);
     }
